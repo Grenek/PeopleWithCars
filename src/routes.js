@@ -6,27 +6,8 @@ import Statistics from './views/statistics';
 import AddOwner from './components/addOwner';
 import DetailedInfo from './components/detailedInfo'
 
-const routes = [
-    {
-        path: '/cars',
-        component: Cars,
-    },
-    {
-        path: '/owners',
-        component: Owners,
-        routes: [
-            {
-                path: '/owners/add',
-                component: AddOwner
-            },
-            {
-                path: '/owners/:id',
-                component: DetailedInfo
-            },
-        ]
-    },
-    {
-        path: '/statistics',
-        component: Statistics,
-    }
-]
+<Switch>
+    <Route path="/owners" exact component={Owners} />
+    <Route path="/cars" exact component={Cars} />
+    <Route path="/statistics" exact component={Statistics} />
+</Switch>
