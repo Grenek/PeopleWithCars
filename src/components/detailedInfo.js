@@ -1,10 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import { ListGroup, Card, Container } from 'react-bootstrap'
 import '../styles/style.scss';
 
 class DetailedInfo extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       id: 0,
       name: "",
@@ -18,7 +19,7 @@ class DetailedInfo extends React.Component {
     }
   }
 
-  componentDidMount() {
+  getPersonData() {
     axios
       .get('http://172.30.215.172:8081/RESTfulWebApp/personwithcars', {
         params: {
@@ -26,29 +27,32 @@ class DetailedInfo extends React.Component {
         }
       })
       .then(response => {
-        // console.log(response.data);
-        const detailedInfosList = response.data
-        this.setState({
-          id: detailedInfosList.id,
-          name: detailedInfosList.name,
-          birthdate: detailedInfosList.birthdate,
-          cars: {
-            id: detailedInfosList.cars.id,
-            model: detailedInfosList.cars.model,
-            horsepower: detailedInfosList.cars.horsepower,
-            ownerId: detailedInfosList.cars.ownerId,
-          }
-        })
-
-        console.log(this.state);
+        this.setState({ ...response.data })
       })
   }
 
+  componentDidMount() {
+    // this.getPersonData()
+  }
+
   render() {
+
     return (
-      <div className="DetailedInfo">
-        <h1>1</h1>
-      </div>
+      <Container className="detailedInfo d-flex justify-content-center">
+        <Card>
+          <Card.Body>{this.props.peopleWitchCars.name}</Card.Body>
+          <Card.Body>{this.props.peopleWitchCars.birthdate}</Card.Body>
+        </Card>
+        <ListGroup className="d-flex justify-content-end">
+          {/* {console.log(this.props.peopleWitchCars.cars)
+          } */}
+          
+          {this.props.peopleWitchCars.cars.map(car => {
+            return <ListGroup.Item key={car.id}>{car.model}</ListGroup.Item>
+          })}
+          
+        </ListGroup>
+      </Container>
     )
   }
 }

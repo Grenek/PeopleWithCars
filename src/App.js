@@ -1,12 +1,16 @@
 import React from 'react';
 import './styles/style.scss';
-import DetailedInfo from './components/detailedInfo'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import Navbar from './components/navbar'
+
+import Owners from './views/owners'
 
 function App() {
   return (
       <div className="App">
-        <h1>Main page</h1>
-        <DetailedInfo />
+        <Navbar />
+        <Owners/>
       </div>
   );
 }
