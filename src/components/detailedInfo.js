@@ -9,12 +9,12 @@ class DetailedInfo extends React.Component {
       id: 0,
       name: "",
       birthdate: "",
-      cars: {
+      cars: [{
         id: 0,
         model: "",
         horsepower: 0,
         ownerId: 0
-      }
+      }]
     }
   }
 
@@ -28,8 +28,18 @@ class DetailedInfo extends React.Component {
       .then(response => {
         // console.log(response.data);
         const detailedInfosList = response.data
-        const name = detailedInfosList.name
-        this.setState({ detailedInfosList })
+        this.setState({
+          id: detailedInfosList.id,
+          name: detailedInfosList.name,
+          birthdate: detailedInfosList.birthdate,
+          cars: {
+            id: detailedInfosList.cars.id,
+            model: detailedInfosList.cars.model,
+            horsepower: detailedInfosList.cars.horsepower,
+            ownerId: detailedInfosList.cars.ownerId,
+          }
+        })
+
         console.log(this.state);
       })
   }
