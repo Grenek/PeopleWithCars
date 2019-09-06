@@ -9,12 +9,20 @@ class SearchOwner extends React.Component {
     this.state = {}
   }
 
+  // смотрим что юзер ввел и записываем id в state
+  handleUserInput = (e) => {
+    const id = e.target.name;
+    const value = e.target.value;
+    this.setState({[id]: value});
+  }
+
+  //делаем запрос к API и записываем ответ в state
   searchOwner = (e) => {
     e.preventDefault();
     axios
     .get('http://172.30.215.172:8081/RESTfulWebApp/personwithcars', {
       params: {
-        personid: 4
+        personid: this.state.id
       }
     })
     .then(response => {
@@ -29,7 +37,7 @@ class SearchOwner extends React.Component {
         <Form onSubmit={this.searchOwner}>
           <Form.Group>
             <Form.Label>Поиск автовладельца</Form.Label>
-            <Form.Control placeholder="Введите ID" />
+            <Form.Control placeholder="Введите ID" name="id" onChange={this.handleUserInput}/>
           </Form.Group>
         </Form>
       </div>
