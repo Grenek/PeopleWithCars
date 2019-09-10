@@ -17,6 +17,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Owners} />
           <Route path="/cars" component={Cars} />
+          <Route path="/owners/" component={Owners} />
           <Route path="/owners/:id" component={Owners} />
           <Route path="/statistics" component={Statistics} />
           <Route component={Notfound} />

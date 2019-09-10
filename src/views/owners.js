@@ -31,7 +31,6 @@ class Owners extends React.Component {
   render() {
     return (
       <div className="owners">
-        
         <SearchOwner info={this.getIdFromSearchOwner} />
         {this.componentToRender()}
       </div>
