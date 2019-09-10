@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Router, Route } from 'react-router';
 import { Nav } from 'react-bootstrap';
 import '../styles/style.scss';
 
@@ -6,11 +8,19 @@ class Navbar extends React.Component {
     render() {
         return (
             <div className="navbar">
-                <Nav>
-                    <Nav.Item><Nav.Link href="/owners">Автовладельцы</Nav.Link></Nav.Item>
-                    <Nav.Item><Nav.Link href="/cars">Каталог авто</Nav.Link></Nav.Item>
-                    <Nav.Item><Nav.Link href="/statistics">Статистика</Nav.Link></Nav.Item>
-                </Nav>
+                <nav>
+                    <ul>
+                        <li>
+                            <Link to="/owners">owners</Link>
+                        </li>
+                        <li>
+                            <Link to="/cars">cars</Link>
+                        </li>
+                        <li>
+                            <Link to="/statistics">statistics</Link>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         )
     }
