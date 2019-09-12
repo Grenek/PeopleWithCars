@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/style.scss'
 import axios from 'axios'
-import { Card } from 'react-bootstrap'
+import { Container, ListGroup, Card, Row, Col } from 'react-bootstrap'
 
 class Owner extends React.Component {
    constructor(props) {
@@ -12,14 +12,14 @@ class Owner extends React.Component {
    }
 
    static getDerivedStateFromProps(nextProps) {
-      return{
+      return {
          id: nextProps.ids
       }
-    }
+   }
 
-   componentDidUpdate(prevProps){
-      if(prevProps !== this.props) {this.getOwnerInfo()}
-   } 
+   componentDidUpdate(prevProps) {
+      if (prevProps !== this.props) { this.getOwnerInfo() }
+   }
 
    componentDidMount() {
       this.getOwnerInfo()
@@ -37,12 +37,43 @@ class Owner extends React.Component {
          })
    }
 
+   showCars() {
+      // console.log(this.state.cars)
+      if (this.state.cars && this.state.cars.length) {
+         this.state.cars.map((car, index) => {
+            console.log(car)
+            return (
+               <ListGroup.Item>{car.model}</ListGroup.Item>
+            )
+         })
+      }
+   }
+
+   carToShow = (e) => {
+      console.log(e.target) // вот тут хотелось бы положить инфу из Card в state и тогда отрендерится нужная машина, но шото не выходит
+   }
+
    render() {
       return (
-         <Card key={this.state.id}>
-            <Card.Body>{this.state.name}</Card.Body>
-            <Card.Body>{this.state.birthdate}</Card.Body>
-         </Card>
+         <Container key={this.state.id}>
+            <Row>
+               <Col onClick={this.carToShow}>
+                  <Card >
+                     <Card.Body>{this.state.name}</Card.Body>
+                     <Card.Body>{this.state.birthdate}</Card.Body>
+                  </Card>
+               </Col>
+               <Col className="carsList">
+                  {(this.state.cars && this.state.cars.length) ?
+                     this.state.cars.map((car, index) => {
+                        return (
+                           <ListGroup.Item key={index}>{car.model}</ListGroup.Item>
+                        )
+                     }) : null
+                  }
+               </Col>
+            </Row>
+         </Container>
       )
    }
 }

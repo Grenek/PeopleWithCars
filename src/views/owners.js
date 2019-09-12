@@ -31,6 +31,13 @@ class Owners extends React.Component {
    }
 
    render() {
+      if(this.state.id.includes("") || typeof this.state.id[0] === "undefined"){
+         this.getLast3IDs()
+         {this.state.id.map((id, index) => {
+            return (<Owner key={index} ids={id} />)
+         })}
+      }
+
       return (
          <div className="owners">
             <SearchOwner myCallback={this.getIDFromSearchBar}/>
