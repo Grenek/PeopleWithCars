@@ -20,7 +20,7 @@ class Owners extends React.Component {
       this.getLast3IDs()
    }
 
-   getIDFromSearchBar = (idFromSearchBar) => {this.setState({id: idFromSearchBar})}
+   getIDFromSearchBar = (idFromSearchBar) => {this.setState({id: [idFromSearchBar]})}
 
    getLast3IDs() {
       axios
@@ -30,12 +30,11 @@ class Owners extends React.Component {
          })
    }
 
-   whatToRender() {
-      if (this.state) { }
-   }
-
    render() {
-      console.log(this.state.id)
+      // console.log(this.state.id)
+      // {this.state.id.map((id, index) => {
+      //    console.log(id, index)
+      // })}
       return (
          <div className="owners">
             <SearchOwner myCallback={this.getIDFromSearchBar}/>
