@@ -11,13 +11,12 @@ class SearchOwner extends React.Component {
     }
   }
 
-  // смотрим что юзер ввел и записываем id в state
   handleUserInput = (e) => {
     e.preventDefault();
     this.setState({ id: e.target.value})
   }
 
-  searchOwner= (e) => {
+  passIdToOwners= (e) => {
     e.preventDefault();
     this.props.myCallback(this.state.id)
   }
@@ -25,7 +24,7 @@ class SearchOwner extends React.Component {
   render() {
     return (
       <div className="searchOwner">
-        <Form onSubmit={this.searchOwner}>
+        <Form onSubmit={this.passIdToOwners}>
           <Form.Group>
             <Form.Label>Поиск автовладельца</Form.Label>
             <Form.Control type="number" placeholder="Введите ID" name="id" onChange={this.handleUserInput}/>

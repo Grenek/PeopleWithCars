@@ -31,10 +31,6 @@ class Owners extends React.Component {
    }
 
    render() {
-      // console.log(this.state.id)
-      // {this.state.id.map((id, index) => {
-      //    console.log(id, index)
-      // })}
       return (
          <div className="owners">
             <SearchOwner myCallback={this.getIDFromSearchBar}/>

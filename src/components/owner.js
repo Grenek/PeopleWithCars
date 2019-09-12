@@ -11,17 +11,21 @@ class Owner extends React.Component {
       }
    }
 
-   // static getDerivedStateFromProps(nextProps) {
-   //    console.log(nextProps)
-   //    this.setState({ id: nextProps });  
-   //  }
+   static getDerivedStateFromProps(nextProps) {
+      return{
+         id: nextProps.ids
+      }
+    }
+
+   componentDidUpdate(prevProps){
+      if(prevProps !== this.props) {this.getOwnerInfo()}
+   } 
 
    componentDidMount() {
       this.getOwnerInfo()
    }
 
    getOwnerInfo() {
-      console.log(this.props.ids) // вот тут не выводится id
       axios
          .get('http://172.30.215.172:8081/RESTfulWebApp/personwithcars', {
             params: {
