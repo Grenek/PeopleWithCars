@@ -21,7 +21,6 @@ class SearchOwner extends React.Component {
   //делаем запрос к API и записываем ответ в state
   searchOwner = (e) => {
     e.preventDefault();
-
     if (this.state.id !== "" && typeof this.state.id !== "undefined") {
       axios
         .get('http://172.30.215.172:8081/RESTfulWebApp/personwithcars', {
@@ -31,9 +30,11 @@ class SearchOwner extends React.Component {
         })
       .then(response => {
         this.setState({ ...response.data })
-        this.props.info(this.state);
+        this.props.myCallback(this.state.id)
+        console.log(this.state.id)
       })
       .catch(error => {
+        // console.log(error.response)
         if (error.response.status === 400) {
           this.setState({ errorText: 'Введите корректный ID' })
         } else {
