@@ -19,7 +19,6 @@ class SearchOwner extends React.Component {
    passIdToOwners = (e) => {
       e.preventDefault();
       this.props.myCallback(this.state.id)
-      // this.props.history.push(`/owners/${this.state.id}`)
    }
 
    render() {

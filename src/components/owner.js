@@ -27,6 +27,9 @@ class Owner extends React.Component {
       }
    }
 
+   give404ToParent() {
+      this.props.myCallback2()
+   }
 
    componentDidUpdate(prevProps) {
       if (prevProps !== this.props) { this.getOwnerInfo() }
@@ -47,15 +50,20 @@ class Owner extends React.Component {
             this.setState({ ...response.data })
          })
          .catch(error => {
-            confirmAlert({
-               message: `Пользователь ${this.state.id} не найден`,
-               buttons: [
-                  {
-                     label: 'Хорошо, я понял',
-                     onClick: () =>  {}// todo вот тут написать что-то чтобы возвращал список последний трех овнеров
-                  }
-               ]
-            });
+            if (error.response.status === 404) {
+               confirmAlert({
+                  message: `Пользователь ${this.state.id} не найден`,
+                  buttons: [
+                     {
+                        label: 'Хорошо, я понял',
+                        onClick: () => { this.give404ToParent() }
+                     }
+                  ]
+               });
+            }
+            if (error.response.status === 400) {
+               return
+            }
          })
    }
 
