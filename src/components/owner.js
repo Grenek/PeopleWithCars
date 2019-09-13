@@ -2,20 +2,31 @@ import React from 'react'
 import '../styles/style.scss'
 import axios from 'axios'
 import { Container, ListGroup, Card, Row, Col } from 'react-bootstrap'
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 class Owner extends React.Component {
    constructor(props) {
       super(props)
       this.state = {
-         id: props.ids
+         id: props.ids,
+         show: false
       }
    }
 
    static getDerivedStateFromProps(nextProps) {
-      return {
-         id: nextProps.ids
+      if (nextProps.shows) {
+         return {
+            id: nextProps.ids,
+            show: nextProps.shows
+         }
+      } else {
+         return {
+            id: nextProps.ids,
+         }
       }
    }
+
 
    componentDidUpdate(prevProps) {
       if (prevProps !== this.props) { this.getOwnerInfo() }
@@ -35,36 +46,35 @@ class Owner extends React.Component {
          .then(response => {
             this.setState({ ...response.data })
          })
-   }
-
-   showCars() {
-      // console.log(this.state.cars)
-      if (this.state.cars && this.state.cars.length) {
-         this.state.cars.map((car, index) => {
-            console.log(car)
-            return (
-               <ListGroup.Item>{car.model}</ListGroup.Item>
-            )
+         .catch(error => {
+            confirmAlert({
+               message: `Пользователь ${this.state.id} не найден`,
+               buttons: [
+                  {
+                     label: 'Хорошо, я понял',
+                     onClick: () =>  {}// todo вот тут написать что-то чтобы возвращал список последний трех овнеров
+                  }
+               ]
+            });
          })
-      }
    }
 
-   carToShow = (e) => {
-      console.log(e.target) // вот тут хотелось бы положить инфу из Card в state и тогда отрендерится нужная машина, но шото не выходит
+   handleClick() {
+      this.setState(prevState => ({ show: !prevState.show }))
    }
 
    render() {
       return (
          <Container key={this.state.id}>
             <Row>
-               <Col onClick={this.carToShow}>
-                  <Card >
-                     <Card.Body>{this.state.name}</Card.Body>
+               <Col >
+                  <Card onClick={e => this.handleClick()}>
+                     <Card.Body className={this.state.id}>{this.state.name}</Card.Body>
                      <Card.Body>{this.state.birthdate}</Card.Body>
                   </Card>
                </Col>
                <Col className="carsList">
-                  {(this.state.cars && this.state.cars.length) ?
+                  {(this.state.cars && this.state.cars.length && this.state.show) ?
                      this.state.cars.map((car, index) => {
                         return (
                            <ListGroup.Item key={index}>{car.model}</ListGroup.Item>
