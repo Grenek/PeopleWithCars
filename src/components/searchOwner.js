@@ -1,21 +1,21 @@
 import React from 'react';
 import '../styles/style.scss';
 import { Form } from 'react-bootstrap'
-// import axios from 'axios'
 
 class SearchOwner extends React.Component {
    constructor() {
       super()
       this.state = {
-         errorText: ""
       }
    }
 
+   // берем id из строки и записываем в state
    handleUserInput = (e) => {
       e.preventDefault();
       this.setState({ id: e.target.value })
    }
 
+   // отдаем id из state в owners
    passIdToOwners = (e) => {
       e.preventDefault();
       this.props.myCallback(this.state.id)
@@ -27,9 +27,8 @@ class SearchOwner extends React.Component {
             <Form onSubmit={this.passIdToOwners}>
                <Form.Group>
                   <Form.Label>Поиск автовладельца</Form.Label>
-                  <Form.Control type="number" placeholder="Введите ID" name="id" onChange={this.handleUserInput} />
+                  <Form.Control type="number" placeholder="Введите ID" onChange={this.handleUserInput} />
                   <Form.Text className="text-muted">
-                     {this.state.errorText}
                   </Form.Text>
                </Form.Group>
             </Form>

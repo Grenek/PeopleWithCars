@@ -4,23 +4,38 @@ import SearchOwner from '../components/searchOwner'
 import Owner from '../components/owner'
 import axios from 'axios'
 
-// import { confirmAlert } from 'react-confirm-alert'; // Import
-// import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-
 class Owners extends React.Component {
    constructor() {
       super()
       this.state = {
-         id: []
+         id: [],
+         ids: [],
+         triggered404: false
       }
    }
 
+   // просто забираем список последних id
    componentDidMount() {
       this.getLast3IDs()
    }
 
-   isNumeric(num) {
-      return !isNaN(num)
+   //тут приложение понимает что triggered404 уже не надо и ставит его false
+   componentDidUpdate(prevState) {
+      if (prevState.triggered404 === true) {
+         this.setState({ triggered404: false })
+      }
+   }
+
+   // надо ли рендерить 3 последних owner?
+   render3LastOwners() {
+      if ((typeof this.props.match.params.id === "undefined" || // срабатывает на enter по пустой строке
+         this.state.ids.length === 0 || // условие срабатывает когда приложение только загрузилось
+         this.state.triggered404 || // срабатывает если юзера не нашли
+         this.state.id.includes("") || //вот тут не помню при каком условии срабатывает, но трогать не надо ибо работает
+         typeof this.state.id[0] === "undefined") && // и тут тоже
+         isNaN(this.props.match.params.id)) { // условие нужно чтобы при наличии в url id которое является числом рендер последних трех не срабатывал
+         return true
+      }
    }
 
    // берем ID который нам передал searchOwner и пушим его в url и state
@@ -31,8 +46,9 @@ class Owners extends React.Component {
       })
    }
 
+   // сюда owner передает сигнал что пользака то нема и возвращает на страничку owners
    if404 = () => {
-      this.setState({triggered404: true})
+      this.setState({ triggered404: true })
       this.props.history.push(`/owners/`)
    }
 
@@ -41,68 +57,31 @@ class Owners extends React.Component {
       axios
          .get('http://172.30.215.172:8081/RESTfulWebApp/getpersonlist')
          .then(response => {
-            this.setState({ id: response.data.slice(response.data.length - 3, response.data.length) })
+            this.setState({ ids: response.data.slice(response.data.length - 3, response.data.length) })
          })
    }
 
    render() {
-      // если id в state пустой или undefined(то есть когда нажали submit на пустой строке поиска или в когда owners только загрузилось) то
-      // берем три последних ID, пробегаемся по этим ID и выводим трех owner
-      if (this.state.id.includes("") || typeof this.state.id[0] === "undefined") {
-         console.log("1")
-         this.getLast3IDs()
-         {
-            this.state.id.map((id, index) => {
-               return (<Owner key={index} ids={id} />)
-            })
-         }
-      }
-
-      // проверяем шо там в урле и если тама цЫфра, то выводим этого овнера
-      if (this.isNumeric(this.props.match.params.id)) {
-         console.log("2")
+      if (this.render3LastOwners()) {
          return (
             <div className="owners">
-               <SearchOwner myCallback={this.getIDFromSearchBar} />
-               <Owner ids={this.props.match.params.id} shows={true} myCallback2={this.if404} />
+               <SearchOwner myCallback={this.getIDFromSearchBar} /> {/* вызываем searchbar и коллбэк чтобы добраться до того что вбили в поле */}
+               {this.state.ids.map((id, index) => <Owner key={index} ids={id} />)}
             </div>
          )
       } else
-         // если айдишников в state 0 (такое бывает при первом рендере) или больше 1 (что значит что мы не ищем пользователя), то соотв выводим список последних трех пользователей
-         if ((this.state.id.length > 1 || this.state.id.length === 0) || this.state.notFound) {
-            console.log("3")
-            return (
-               <div className="owners">
-                  <SearchOwner myCallback={this.getIDFromSearchBar} />
-                  {this.state.id.map((id, index) => {
-                     return (<Owner key={index} ids={id} />)
-                  })}
-               </div>
-            )
-         } else
-            if (this.state.triggered404) {
-               this.getLast3IDs()
-               return (<div className="owners">
-                  
-                  <SearchOwner myCallback={this.getIDFromSearchBar} />
-                  {this.state.id.map((id, index) => {
-                     return (<Owner key={index} ids={id} />)
-                  })}
-               </div>)
-            }
-            // если айдишников в стейте 1, это это значит что мы ищем конкретного пользователя
-            else
-               if (this.state.id.length === 1) {
-                  console.log(this.props.match.params)
-                  return (
-                     <div className="owners">
-                        <SearchOwner myCallback={this.getIDFromSearchBar} />
-                        {this.state.id.map((id, index) => {
-                           return (<Owner key={index} ids={id} shows={true} myCallback2={this.if404} />)
-                        })}
-                     </div>
-                  )
-               }
+         /* если ID в url number, то пытаемся его отобразить. 
+            если длина id = 1, то значит получен id от searchbar и его соотв используем */
+         if ((!isNaN(this.props.match.params.id) || this.state.id.length === 1)) {/*  */ }
+      return (
+         <div className="owners">
+            <SearchOwner myCallback={this.getIDFromSearchBar} />
+            {/* передаем id в owner, параметр show который отвечает за то, 
+                  что список машин автоматически показывается и callback для 404 по пользователю */}
+            <Owner ids={this.props.match.params.id} shows={true} myCallback2={this.if404} />
+         </div>
+      )
+
    }
 }
 
