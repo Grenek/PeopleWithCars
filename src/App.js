@@ -1,15 +1,12 @@
 import React from 'react';
 import './styles/style.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
+import { Route, Switch, Redirect, BrowserRouter as Router } from 'react-router-dom'
 import Notfound from './components/404'
 import Navbar from './components/navbar'
 import Owners from './views/owners'
-// import Owner from './views/owner'
 import Cars from './views/cars'
 import Statistics from './views/statistics'
-// import DetailedInfo from './components/detailedInfo';
-
 
 function App() {
   return (
@@ -18,7 +15,7 @@ function App() {
         <div>
           <Navbar />
           <Switch>
-            <Route exact path="/" component={Owners} />
+            <Redirect exact from="/" to="/owners" component={Owners}/>
             <Route path="/cars" component={Cars} />
             <Route exact path="/owners/" component={Owners} />
             <Route path="/owners/:id" component={Owners} />
@@ -27,7 +24,6 @@ function App() {
           </Switch>
         </div>
       </Router>
-
     </div>
   );
 }

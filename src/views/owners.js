@@ -1,8 +1,9 @@
 import React from 'react';
-import '../styles/style.scss';
+import axios from 'axios'
+import AddOwner from '../components/addOwner'
 import SearchOwner from '../components/searchOwner'
 import Owner from '../components/owner'
-import axios from 'axios'
+import '../styles/style.scss';
 
 class Owners extends React.Component {
    constructor() {
@@ -16,7 +17,7 @@ class Owners extends React.Component {
 
    // просто забираем список последних id
    componentDidMount() {
-      this.getLast3IDs()
+      // this.getLast3IDs()
    }
 
    //тут приложение понимает что triggered404 уже не надо и ставит его false
@@ -65,6 +66,7 @@ class Owners extends React.Component {
       if (this.render3LastOwners()) {
          return (
             <div className="owners">
+               <AddOwner />
                <SearchOwner myCallback={this.getIDFromSearchBar} /> {/* вызываем searchbar и коллбэк чтобы добраться до того что вбили в поле */}
                {this.state.ids.map((id, index) => <Owner key={index} ids={id} />)}
             </div>
@@ -75,6 +77,7 @@ class Owners extends React.Component {
          if ((!isNaN(this.props.match.params.id) || this.state.id.length === 1)) {/*  */ }
       return (
          <div className="owners">
+            <AddOwner />
             <SearchOwner myCallback={this.getIDFromSearchBar} />
             {/* передаем id в owner, параметр show который отвечает за то, 
                   что список машин автоматически показывается и callback для 404 по пользователю */}
