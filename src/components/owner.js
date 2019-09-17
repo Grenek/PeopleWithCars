@@ -45,35 +45,38 @@ class Owner extends React.Component {
    }
 
    getOwnerInfo() {
-      axios
-         .get('http://172.30.215.172:8081/RESTfulWebApp/personwithcars', {
-            params: {
-               personid: this.state.id
-            }
-         })
-         .then(response => {
-            this.setState({ ...response.data })
-         })
-         .catch(error => {
-            if (error.response.status === 404) {
-               this.give404ToParent()
-               confirmAlert({
-                  message: `Пользователь ${this.state.id} не найден`,
-                  buttons: [
-                     {
-                        label: 'Хорошо, я понял',
-                     }
-                  ]
-               });
-            }
-            if (error.response.status === 400) {
-               return
-            }
-         })
+      if (this.state.id !== "add") {
+         axios
+            .get('http://172.30.215.172:8081/RESTfulWebApp/personwithcars', {
+               params: {
+                  personid: this.state.id
+               }
+            })
+            .then(response => {
+               this.setState({ ...response.data })
+            })
+            .catch(error => {
+               if (error.response.status === 404) {
+                  this.give404ToParent()
+                  confirmAlert({
+                     message: `Пользователь ${this.state.id} не найден`,
+                     buttons: [
+                        {
+                           label: 'Хорошо, я понял',
+                        }
+                     ]
+                  });
+               }
+               if (error.response.status === 400) {
+                  return
+               }
+            })
+      }
    }
 
    // по клику показываем/убираем список машин
    handleClick() {
+      console.log(this.state.cars)
       this.setState(prevState => ({ show: !prevState.show }))
    }
 

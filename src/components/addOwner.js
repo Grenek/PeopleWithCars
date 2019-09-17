@@ -14,6 +14,17 @@ class AddOwner extends React.Component {
       }
    }
 
+   pushAddToUrl = () => {
+      this.props.myCallback3()
+   }
+
+   removeAddFromUrl = () => {
+      this.props.myCallback4()
+      this.setState({
+         birthdate: null
+      });
+   }
+
    // проверка что дата не будущее
    dateValidate(date) {
       let now = moment().format("YYYY-MM-DD")
@@ -72,7 +83,7 @@ class AddOwner extends React.Component {
    render() {
       return (
          <Container className="d-flex justify-content-end">
-            <Popup trigger={<Button>+</Button>} modal on="focus">
+            <Popup trigger={<Button onClick={this.pushAddToUrl}>+</Button>} modal on="focus" onClose={this.removeAddFromUrl}>
                {close => (
                   <div>
                      <p>Добавление пользователя</p>
