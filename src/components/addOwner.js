@@ -4,47 +4,69 @@ import '../styles/style.scss'
 import { Container, Button, Form } from 'react-bootstrap'
 import Popup from 'reactjs-popup'
 import DatePicker from "react-datepicker"
+import axios from 'axios'
 var moment = require('moment');
 
 class AddOwner extends React.Component {
    constructor() {
       super()
       this.state = {
-         addOwnerVisible: false,
-         startDate: null
       }
    }
 
-   handleChange = date => {
-      this.setState({
-         startDate: date
-      });
-      // проверочка на будущую дату
-      let now = moment().format("YYYY-MM-DD");
+   // проверка что дата не будущее
+   dateValidate(date) {
+      let now = moment().format("YYYY-MM-DD")
       let checkDate = moment(date).format("YYYY-MM-DD")
-      if (moment(checkDate).isAfter(now)) {
-         document.querySelector(".date-error").classList.remove('d-none')
-         document.querySelector(".date-error").classList.add('d-block')
-      } else {
+      return (!moment(checkDate).isAfter(now))
+   }
+
+   // проверка что имя состоит только из латинских букв и пробела
+   nameValidate(name) {
+      return (/^[a-zA-Z ]+$/.test(name))
+   }
+
+   // вывод ошибки при вводе имени
+   onChangeDateValidate = date => {
+      if (this.dateValidate(date)) {
          document.querySelector(".date-error").classList.remove('d-block')
          document.querySelector(".date-error").classList.add('d-none')
+         this.setState({
+            birthdate: date
+         });
+      } else {
+         document.querySelector(".date-error").classList.remove('d-none')
+         document.querySelector(".date-error").classList.add('d-block')
+         this.setState({
+            birthdate: date
+         });
       }
    };
 
-   nameValidate(e){
-      console.log(e)
-      let valid = /^[a-zA-Z ]+$/.test(e.target.value);
-      if (!valid) {
-         document.querySelector(".name-error").classList.remove('d-none')
-         document.querySelector(".name-error").classList.add('d-block')
-      } else {
+   // вывод ошибки при вводе даты
+   onChangeNameValidate = e => {
+      if (this.nameValidate(e.target.value)) {
          document.querySelector(".name-error").classList.remove('d-block')
          document.querySelector(".name-error").classList.add('d-none')
-   }
+      } else {
+         document.querySelector(".name-error").classList.remove('d-none')
+         document.querySelector(".name-error").classList.add('d-block')
+      }
    }
 
-   showAddOwner() {
-      this.setState({ addOwnerVisible: true });
+   handleSubmit = () => {
+      let newOwner = {}
+      let name = document.querySelector(".name-input").value
+      let birthdate = document.querySelector(".date-input").value
+      if (this.dateValidate(birthdate) && this.nameValidate(name)) {
+         newOwner.name = name
+         newOwner.birthdate = birthdate
+         axios({
+            method: 'POST',
+            url: 'http://172.30.215.172:8081/RESTfulWebApp/person',
+            data: newOwner
+         });
+      }
    }
 
    render() {
@@ -52,41 +74,42 @@ class AddOwner extends React.Component {
          <Container className="d-flex justify-content-end">
             <Popup trigger={<Button>+</Button>} modal on="focus">
                {close => (
-               <div className="">
-                  <p>Добавление пользователя</p>
-                  <Form>
+                  <div>
+                     <p>Добавление пользователя</p>
+                     <Form onSubmit={this.handleSubmit}>
 
-                     <Form.Group controlId="">
-                        <Form.Label>Имя</Form.Label>
-                        <Form.Control onChange={this.nameValidate} type="text" placeholder="Введите имя" />
-                        <Form.Text className="name-error d-none">
-                           Имя состоит только из букв!
+                        <Form.Group>
+                           <Form.Label>Имя</Form.Label>
+                           <Form.Control onChange={this.onChangeNameValidate} type="text" placeholder="Введите имя" className="name-input" />
+                           <Form.Text className="name-error d-none">
+                              Имя должно состоять только из букв!
                         </Form.Text>
-                     </Form.Group>
+                        </Form.Group>
 
-                     <Form.Group controlId="">
-                        <Form.Label>День рождения</Form.Label>
-                        <br></br>
-                        <DatePicker
-                           placeholderText="День рождения"
-                           dateFormat="dd.MM.yyyy"
-                           selected={this.state.startDate}
-                           onChange={this.handleChange}
-                        />
-                        <Form.Text className="date-error d-none">
-                           Ты не можешь родиться в будущем 😭
+                        <Form.Group controlId="">
+                           <Form.Label>День рождения</Form.Label>
+                           <br></br>
+                           <DatePicker
+                              className="date-input"
+                              placeholderText="День рождения"
+                              dateFormat="dd.MM.yyyy"
+                              selected={this.state.birthdate}
+                              onChange={this.onChangeDateValidate}
+                           />
+                           <Form.Text className="date-error d-none">
+                              Ты не можешь родиться в будущем
                         </Form.Text>
-                     </Form.Group>
+                        </Form.Group>
 
-                     <Button variant="primary" type="submit">
-                        Ок
+                        <Button variant="primary" type="submit">
+                           Ок
                      </Button>
-                     <Button variant="primary" onClick={close}>
-                        Отмена
+                        <Button variant="primary" onClick={close}>
+                           Отмена
                      </Button>
 
-                  </Form>
-               </div>
+                     </Form>
+                  </div>
                )}
             </Popup>
          </Container>

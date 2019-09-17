@@ -2,8 +2,8 @@ import React from 'react'
 import '../styles/style.scss'
 import axios from 'axios'
 import { Container, ListGroup, Card, Row, Col } from 'react-bootstrap'
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 class Owner extends React.Component {
    constructor(props) {

@@ -17,7 +17,7 @@ class Owners extends React.Component {
 
    // просто забираем список последних id
    componentDidMount() {
-      // this.getLast3IDs()
+      this.getLast3IDs()
    }
 
    //тут приложение понимает что triggered404 уже не надо и ставит его false
