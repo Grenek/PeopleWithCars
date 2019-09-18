@@ -1,3 +1,20 @@
 .date-error {
-   display: none
+  display: none;
+}
+
+.model {
+   .addCarToOwner {
+    display: none;
+  }
+  display: inline-block;
+}
+
+.model:hover {
+  .addCarToOwner {
+    display: inline-block;
+  }
+}
+
+.list-group-item {
+   display: inline-block;
 }

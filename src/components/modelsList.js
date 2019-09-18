@@ -1,6 +1,7 @@
 import React from 'react'
 import '../styles/style.scss'
-import { ListGroup, Col } from 'react-bootstrap'
+import { ListGroup, Col, Button } from 'react-bootstrap'
+import AddCarToOwner from '../components/addCarToOwner'
 
 class ModelsList extends React.Component {
    constructor(props) {
@@ -39,9 +40,10 @@ class ModelsList extends React.Component {
          <Col>
             <input type="text" className="search" onChange={this.searchHandler} onClick={this.handleClick}/>
             {(this.state.displayedModels && this.state.displayedModels.length > 0 && typeof this.state.displayedModels !== "undefined") ?
-               this.state.displayedModels.map((brand, index) => {
+               this.state.displayedModels.map((model, index) => {
                   return (
-                     <ListGroup.Item key={index} onClick={this.handleClick}>{brand}</ListGroup.Item>
+                     <ListGroup.Item className="model" key={index} onClick={this.handleClick}>{model}<AddCarToOwner model={model} brand={this.props.brand}/></ListGroup.Item>
+
                   )
                }) : null}
          </Col>

@@ -71,7 +71,7 @@ class BrandsList extends React.Component {
                         )
                      })}
                   </Col>
-                  <ModelsList models={this.state.chosenModels} />
+                  <ModelsList brand={this.state.chosenBrand} models={this.state.chosenModels} />
                </Row>
             </Container>
          </div>
