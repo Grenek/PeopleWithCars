@@ -18,6 +18,7 @@ class BrandsList extends React.Component {
       this.getCars()
    }
 
+   // ходим за списком авто
    getCars() {
       axios
          .get('http://172.30.215.172:8081/RESTfulWebApp/cars')
@@ -29,46 +30,48 @@ class BrandsList extends React.Component {
          })
    }
 
-   toggleModels = () => {
-      this.setState(prevState => ({ show: !prevState.show }))
-   }
-
+   // выполняем поиск и попавшие результаты записываем в state
    searchHandler = (e) => {
-      let searchjQery = e.target.value.toLowerCase(),
+      let searchQuery = e.target.value.toLowerCase(),
          displayedBrands = this.state.cars.filter((el) => {
             let searchValue = el.brand.toLowerCase();
-            return searchValue.indexOf(searchjQery) !== -1;
+            return searchValue.indexOf(searchQuery) !== -1;
          })
       this.setState({
          displayedBrands: displayedBrands
       })
    }
 
+   // по клику на бренд записываем его и проходимся по всему списку cars чтобы найти модели этого бренда
    handleClick = (e) => {
-      this.setState({ chosenBrand: e.target.innerHTML }, () => {
+      this.setState({
+         chosenBrand: e.target.innerHTML
+      }, () => {
          this.state.cars.map(car => {
             if (car.brand === this.state.chosenBrand) {
-               this.setState({ chosenModels: car.models })
+               this.setState({
+                  chosenModels: car.models
+               })
             }
+            return true
          })
-      }
-      )
+      })
    }
 
    render() {
       return (
          <div>
-            <input type="text" className="search" onChange={this.searchHandler} />
             <Container>
                <Row>
                   <Col>
+                     <input type="text" className="search" onChange={this.searchHandler} />
                      {this.state.displayedBrands.map((brand, index) => {
                         return (
                            <ListGroup.Item key={index} onClick={this.handleClick}>{brand.brand}</ListGroup.Item>
                         )
                      })}
                   </Col>
-                     <ModelsList brand={this.state.chosenBrand} models={this.state.chosenModels} />
+                  <ModelsList models={this.state.chosenModels} />
                </Row>
             </Container>
          </div>

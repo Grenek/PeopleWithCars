@@ -33,7 +33,8 @@ class Owners extends React.Component {
       if ((typeof this.props.match.params.id === "undefined" || // срабатывает на enter по пустой строке
          this.state.ids.length === 0 || // условие срабатывает когда приложение только загрузилось
          this.state.triggered404 || // срабатывает если юзера не нашли
-         this.state.id.includes("") || //вот тут не помню при каком условии срабатывает, но трогать не надо ибо работает
+         this.state.id.includes("") ||
+         this.state.id === "" || //вот тут не помню при каком условии срабатывает, но трогать не надо ибо работает
          typeof this.state.id[0] === "undefined") && // и тут тоже
          isNaN(this.props.match.params.id)) { // условие нужно чтобы при наличии в url id которое является числом рендер последних трех не срабатывал
          return true
@@ -53,7 +54,7 @@ class Owners extends React.Component {
       this.props.history.push(`/owners/add`)
    }
 
-   // // сюда addOwner передает сигнал что надо бы из url убрать /add
+   // сюда addOwner передает сигнал что надо бы из url убрать /add
    removeAddFromUrl = () => {
       this.props.history.push(`/owners/`)
    }
@@ -75,6 +76,7 @@ class Owners extends React.Component {
 
    render() {
       if (this.render3LastOwners()) {
+         // console.log("1")
          return (
             <div className="owners">
                <AddOwner myCallback3={this.pushAddToUrl} myCallback4={this.removeAddFromUrl} />
@@ -86,6 +88,7 @@ class Owners extends React.Component {
          /* если ID в url number, то пытаемся его отобразить. 
             если длина id = 1, то значит получен id от searchbar и его соотв используем */
          if (!isNaN(this.props.match.params.id))
+         // console.log("2")
             return (
                <div className="owners">
                   <AddOwner myCallback3={this.pushAddToUrl} myCallback4={this.removeAddFromUrl} />

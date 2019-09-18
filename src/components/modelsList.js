@@ -1,29 +1,21 @@
 import React from 'react'
 import '../styles/style.scss'
 import { ListGroup, Col } from 'react-bootstrap'
-// import axios from 'axios'
 
 class ModelsList extends React.Component {
    constructor(props) {
       super(props)
       this.state = {
          displayedModels: [],
-         wtf: this.props.brand
+         models: []
       }
    }
 
-   // static getDerivedStateFromProps(nextProps) {
-   // }
-
-   // componentDidMount() {
-   //    this.setState({
-   //       displayedModels: this.props.models,
-   //    });
-   // }
-
    componentDidUpdate(prevProps) {
       if (prevProps !== this.props) {
-         this.setState({ displayedModels: this.props.models })
+         this.setState({ 
+            models: this.props.models,
+            displayedModels: this.props.models })
       }
    }
 
@@ -32,10 +24,10 @@ class ModelsList extends React.Component {
    }
 
    searchHandler = (e) => {
-      let searchjQery = e.target.value.toLowerCase(),
-         displayedModels = this.state.displayedModels.filter((el) => {
+      let searchQuery = e.target.value.toLowerCase(),
+         displayedModels = this.state.models.filter((el) => {
             let searchValue = el.toLowerCase();
-            return searchValue.indexOf(searchjQery) !== -1;
+            return searchValue.indexOf(searchQuery) !== -1;
          })
       this.setState({
          displayedModels: displayedModels
@@ -43,9 +35,6 @@ class ModelsList extends React.Component {
    }
 
    render() {
-      // console.log((this.state.displayedModels && this.state.displayedModels.length > 0 && typeof this.state.displayedModels !== "undefined"))
-      // console.log(typeof this.state.displayedModels !== "undefined")
-      console.log(this.state.displayedModels && this.state.displayedModels.length > 0 && typeof this.state.displayedModels !== "undefined")
       return (
          <Col>
             <input type="text" className="search" onChange={this.searchHandler} onClick={this.handleClick}/>
