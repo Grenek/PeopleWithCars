@@ -12,15 +12,14 @@ class ModelsList extends React.Component {
       }
    }
 
-   static getDerivedStateFromProps(nextProps) {
+   // static getDerivedStateFromProps(nextProps) {
+   // }
 
-   }
-
-   componentDidMount() {
-      this.setState({
-         displayedModels: this.props.models,
-      });
-   }
+   // componentDidMount() {
+   //    this.setState({
+   //       displayedModels: this.props.models,
+   //    });
+   // }
 
    componentDidUpdate(prevProps) {
       if (prevProps !== this.props) {
@@ -29,6 +28,7 @@ class ModelsList extends React.Component {
    }
 
    handleClick = () => {
+      // console.log(this.state.displayedModels)
    }
 
    searchHandler = (e) => {
@@ -45,16 +45,16 @@ class ModelsList extends React.Component {
    render() {
       // console.log((this.state.displayedModels && this.state.displayedModels.length > 0 && typeof this.state.displayedModels !== "undefined"))
       // console.log(typeof this.state.displayedModels !== "undefined")
-      console.log(this.state.displayedModels.length > 0)
+      console.log(this.state.displayedModels && this.state.displayedModels.length > 0 && typeof this.state.displayedModels !== "undefined")
       return (
          <Col>
-            <input type="text" className="search" onChange={this.searchHandler} />
-            {/* {(this.state.displayedModels && this.state.displayedModels.length > 0 && typeof this.state.displayedModels !== "undefined") ?
-               this.state.displayedBrands.map((brand, index) => {
+            <input type="text" className="search" onChange={this.searchHandler} onClick={this.handleClick}/>
+            {(this.state.displayedModels && this.state.displayedModels.length > 0 && typeof this.state.displayedModels !== "undefined") ?
+               this.state.displayedModels.map((brand, index) => {
                   return (
-                     <ListGroup.Item key={index} onClick={this.handleClick}>{brand.brand}</ListGroup.Item>
+                     <ListGroup.Item key={index} onClick={this.handleClick}>{brand}</ListGroup.Item>
                   )
-               }) : null} */}
+               }) : null}
          </Col>
       )
    }
