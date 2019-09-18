@@ -9,7 +9,7 @@ class BrandsList extends React.Component {
       super()
       this.state = {
          cars: [],
-         displayedCars: [],
+         displayedBrands: [],
          chosenBrand: ""
       }
    }
@@ -24,7 +24,7 @@ class BrandsList extends React.Component {
          .then(response => {
             this.setState({
                cars: response.data,
-               displayedCars: response.data
+               displayedBrands: response.data
             })
          })
    }
@@ -34,19 +34,25 @@ class BrandsList extends React.Component {
    }
 
    searchHandler = (e) => {
-      console.log(this.state.displayedCars)
       let searchjQery = e.target.value.toLowerCase(),
-         displayedCars = this.state.cars.filter((el) => {
+         displayedBrands = this.state.cars.filter((el) => {
             let searchValue = el.brand.toLowerCase();
             return searchValue.indexOf(searchjQery) !== -1;
          })
       this.setState({
-         displayedCars: displayedCars
+         displayedBrands: displayedBrands
       })
    }
 
    handleClick = (e) => {
-      this.setState({chosenBrand: e.target.innerHTML})
+      this.setState({ chosenBrand: e.target.innerHTML }, () => {
+         this.state.cars.map(car => {
+            if (car.brand === this.state.chosenBrand) {
+               this.setState({ chosenModels: car.models })
+            }
+         })
+      }
+      )
    }
 
    render() {
@@ -56,23 +62,13 @@ class BrandsList extends React.Component {
             <Container>
                <Row>
                   <Col>
-                     {this.state.displayedCars.map((car, index) => {
+                     {this.state.displayedBrands.map((brand, index) => {
                         return (
-                           <ListGroup.Item key={index} onClick={this.handleClick}>{car.brand}</ListGroup.Item>
+                           <ListGroup.Item key={index} onClick={this.handleClick}>{brand.brand}</ListGroup.Item>
                         )
                      })}
                   </Col>
-                  <Col>
-                  <ModelsList brand={this.state.chosenBrand}/>
-                  </Col>
-                  {/* <Col>
-                     {this.state.displayedCars.map((car, index) => {
-                        car.models.map((model, index) => {
-                           console.log(model)
-                           return <ListGroup.Item key={index}>{model}</ListGroup.Item>
-                        })
-                     })}
-                  </Col> */}
+                     <ModelsList brand={this.state.chosenBrand} models={this.state.chosenModels} />
                </Row>
             </Container>
          </div>

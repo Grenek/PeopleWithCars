@@ -76,7 +76,6 @@ class Owner extends React.Component {
 
    // по клику показываем/убираем список машин
    handleClick() {
-      console.log(this.state.cars)
       this.setState(prevState => ({ show: !prevState.show }))
    }
 
