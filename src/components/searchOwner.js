@@ -16,6 +16,7 @@ class SearchOwner extends React.Component {
          this.props.myCallback(e.target.value)
       }
       this.setState({ id: e.target.value })
+      this.props.myCallback()
    }
 
    // отдаем id из state в owners

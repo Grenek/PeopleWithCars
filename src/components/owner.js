@@ -10,22 +10,25 @@ class Owner extends React.Component {
       super(props)
       this.state = {
          id: props.ids,
-         show: false
+         show: false,
+         addNewCarToOwner: false
       }
    }
 
    /* если передан параметр true, то значит пользователь 1 и тут точно надо вывести список машин,
       если не true, то значит надо дать возможность показывать и скрывать список машин
-      ну и сами id тут принимаются */
+      ну и сами id тут принимаются. А еще если принимается props addNewCarToOwner, то значит надо не показывать список машин */
    static getDerivedStateFromProps(nextProps) {
       if (nextProps.shows) {
          return {
             id: nextProps.ids,
-            show: nextProps.shows
+            show: nextProps.shows,
+
          }
       } else {
          return {
             id: nextProps.ids,
+            addNewCarToOwner: nextProps.addNewCarToOwner
          }
       }
    }
@@ -66,6 +69,7 @@ class Owner extends React.Component {
                         }
                      ]
                   });
+                  return
                }
                if (error.response.status === 400) {
                   return
@@ -84,14 +88,13 @@ class Owner extends React.Component {
          <Container key={this.state.id}>
             <Row>
                <Col >
-                  <Card onClick={e => this.handleClick()}>
-                     <Card.Body className={this.state.id}>{this.state.name}</Card.Body>
-                     <Card.Body>{this.state.birthdate}</Card.Body>
+                  <Card className={this.state.id} onClick={e => this.handleClick()}>
+                     <Card.Body className={this.state.id}>{this.state.name} <br></br> {this.state.birthdate}</Card.Body>
                   </Card>
                </Col>
                <Col className="carsList">
                   {/* если есть машины и их надо показывать, то рендерится */}
-                  {(this.state.cars && this.state.cars.length && this.state.show) ?
+                  {(this.state.cars && this.state.cars.length && this.state.show && !this.state.addNewCarToOwner) ?
                      this.state.cars.map((car, index) => {
                         return (
                            <ListGroup.Item key={index}>{car.model}</ListGroup.Item>

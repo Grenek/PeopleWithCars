@@ -1,6 +1,6 @@
 import React from 'react'
 import '../styles/style.scss'
-import { ListGroup, Col, Button } from 'react-bootstrap'
+import { ListGroup, Col } from 'react-bootstrap'
 import AddCarToOwner from '../components/addCarToOwner'
 
 class ModelsList extends React.Component {
