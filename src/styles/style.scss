@@ -1,3 +1,14 @@
+@import './navbar.scss';
+@import './addOwner.scss';
+@import './searchbar.scss';
+@import './owner.scss';
+@import './cars.scss';
+@import './addCar.scss';
+
+body {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
 .date-error {
   display: none;
 }

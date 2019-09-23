@@ -1,24 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import '../styles/style.scss';
+import { Nav } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 class Navbar extends React.Component {
     render() {
         return (
             <div className="navbar">
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/owners">owners</Link>
-                        </li>
-                        <li>
-                            <Link to="/cars">cars</Link>
-                        </li>
-                        <li>
-                            <Link to="/statistics">statistics</Link>
-                        </li>
-                    </ul>
-                </nav>
+                <Nav variant="pills">
+                    <LinkContainer to="/owners">
+                        <Nav.Link>Автовладельцы</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/cars">
+                        <Nav.Link>Автомобили</Nav.Link>
+                    </LinkContainer>
+<                   LinkContainer to="/statistics">
+                        <Nav.Link>Статистика</Nav.Link>
+                    </LinkContainer>
+                </Nav>
             </div>
         )
     }

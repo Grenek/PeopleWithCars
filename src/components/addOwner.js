@@ -83,8 +83,8 @@ class AddOwner extends React.Component {
 
    render() {
       return (
-         <Container className="d-flex justify-content-end">
-            <Popup trigger={<Button onClick={this.pushAddToUrl}>+</Button>} modal on="focus" onClose={this.removeAddFromUrl}>
+         <Container className="">
+            <Popup trigger={<Button size="sm" className="addOwnerButton" onClick={this.pushAddToUrl}>+</Button>} modal on="focus" onClose={this.removeAddFromUrl}>
                {close => (
                   <div>
                      <p>Добавление пользователя</p>
@@ -112,14 +112,15 @@ class AddOwner extends React.Component {
                            <Form.Text className="date-error d-none">
                               Ты не можешь родиться в будущем
                         </Form.Text>
-                        </Form.Group>
-
-                        <Button variant="primary" type="submit">
+                        <Button variant="success" type="submit">
                            Ок
                      </Button>
-                        <Button variant="primary" onClick={close}>
+                        <Button variant="danger" onClick={close}>
                            Отмена
                      </Button>
+                        </Form.Group>
+
+
 
                      </Form>
                   </div>

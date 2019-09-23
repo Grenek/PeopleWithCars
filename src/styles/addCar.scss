@@ -1,0 +1,25 @@
+.model{
+   padding: 0px 20px !important;
+   height: 50px;
+   line-height: 50px;
+   .addCarToOwnerButton {
+      float: right;
+      margin-top: 9px;
+      width: 31px;
+   }
+   button{
+      float: right;
+      margin-left: 8px;
+      margin-bottom: 16px;
+   }
+
+   p {
+      margin-top: 32px;
+      margin-bottom: 32px;
+      margin-left: 48px;
+      line-height: normal
+   }
+   .searchOwner {
+      line-height: normal
+   }
+}

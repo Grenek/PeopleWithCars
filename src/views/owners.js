@@ -45,7 +45,9 @@ class Owners extends React.Component {
 
    // берем ID который нам передал searchOwner и пушим его в url и state
    getIDFromSearchBar = (idFromSearchBar) => {
-      this.props.history.push(`/owners/${idFromSearchBar}`)
+      if (typeof idFromSearchBar !== "undefined") {
+         this.props.history.push(`/owners/${idFromSearchBar}`)
+      }
       this.setState({
          id: [idFromSearchBar]
       })

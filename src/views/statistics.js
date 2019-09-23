@@ -32,16 +32,9 @@ class Statistics extends React.Component {
       },
     ];
 
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+    const COLORS = ['#007bff', '#FFC300', '#FFBB28', '#FF8042'];
     return (
       <div>
-        {/* <h1>Количество овнеров: {this.state.personcount}</h1>
-        <h1>
-          Количество машин: {this.state.carcount}
-        </h1>
-        <h1>
-          Количество уникальных машин: {this.state.uniquevendorcount}
-        </h1> */}
         <ResponsiveContainer width="100%" height={350}>
           <PieChart height={250}>
             <Pie

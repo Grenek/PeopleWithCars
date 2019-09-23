@@ -14,9 +14,10 @@ class ModelsList extends React.Component {
 
    componentDidUpdate(prevProps) {
       if (prevProps !== this.props) {
-         this.setState({ 
+         this.setState({
             models: this.props.models,
-            displayedModels: this.props.models })
+            displayedModels: this.props.models
+         })
       }
    }
 
@@ -36,16 +37,25 @@ class ModelsList extends React.Component {
    }
 
    render() {
+      // if (this.state.displayedModels && this.state.displayedModels.length > 0 && typeof this.state.displayedModels !== "undefined") {
+      //    return (
+      //       <div>
+      //          <input type="text" className="search" onChange={this.searchHandler} onClick={this.handleClick} />
+      //          {this.state.displayedModels.map((model, index) => {
+      //                <ListGroup.Item className="model" key={index} onClick={this.handleClick}>{model}<AddCarToOwner model={model} brand={this.props.brand} /></ListGroup.Item>
+      //          })}
+      //       </div>
+      //    )
+      // }
       return (
          <Col>
-            <input type="text" className="search" onChange={this.searchHandler} onClick={this.handleClick}/>
+            <input type="text" className="search" onChange={this.searchHandler} onClick={this.handleClick} />
             {(this.state.displayedModels && this.state.displayedModels.length > 0 && typeof this.state.displayedModels !== "undefined") ?
                this.state.displayedModels.map((model, index) => {
                   return (
-                     <ListGroup.Item className="model" key={index} onClick={this.handleClick}>{model}<AddCarToOwner model={model} brand={this.props.brand}/></ListGroup.Item>
-
-                  )
-               }) : null}
+                     <ListGroup.Item className="model" key={index} onClick={this.handleClick}>{model}<AddCarToOwner model={model} brand={this.props.brand} /></ListGroup.Item>
+            )
+         }) : null}
          </Col>
       )
    }

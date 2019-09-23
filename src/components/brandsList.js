@@ -62,7 +62,7 @@ class BrandsList extends React.Component {
    render() {
       return (
          <div>
-            <Container>
+            <Container className="carsList">
                <Row>
                   <Col>
                      <input type="text" className="search" onChange={this.searchHandler} />
