@@ -3,6 +3,7 @@ import '../styles/style.scss'
 import axios from 'axios'
 import { Container, ListGroup, Row, Col } from 'react-bootstrap'
 import ModelsList from '../components/modelsList'
+import apiConfig from '../apiConfig'
 
 class BrandsList extends React.Component {
    constructor() {
@@ -21,7 +22,7 @@ class BrandsList extends React.Component {
    // ходим за списком авто
    getCars() {
       axios
-         .get('http://172.30.215.172:8081/RESTfulWebApp/cars')
+         .get(`${apiConfig.url}/cars`)
          .then(response => {
             this.setState({
                cars: response.data,

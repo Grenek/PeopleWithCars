@@ -3,18 +3,18 @@
 }
 
 .model {
-   .addCarToOwner {
-    display: none;
+  .btn {
+    display: none
   }
-  display: inline-block;
 }
 
 .model:hover {
-  .addCarToOwner {
-    display: inline-block;
+  .btn {
+    display: inline-block
   }
 }
 
-.list-group-item {
-   display: inline-block;
+.active {
+  background-color: #e8f4f8;
 }
+

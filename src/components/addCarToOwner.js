@@ -1,10 +1,12 @@
 import React from 'react'
 import '../styles/style.scss'
 import axios from 'axios'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import Popup from 'reactjs-popup'
 import Owner from './owner'
 import SearchOwner from './searchOwner'
+import apiConfig from '../apiConfig'
+var moment = require('moment');
 
 class AddCarToOwner extends React.Component {
    constructor() {
@@ -13,7 +15,8 @@ class AddCarToOwner extends React.Component {
          id: [],
          ids: [],
          errorText: "",
-         chosenId: ""
+         chosenId: "",
+         error18: ""
       }
    }
 
@@ -21,32 +24,53 @@ class AddCarToOwner extends React.Component {
       this.getLast3IDs()
    }
 
-   handleSubmit = () => {
-      let newCar = {}
-      let ownerId = this.state.chosenId
-      let model = `${this.props.brand}-${this.props.model}`
-      let horsepower = Math.floor(Math.random() * 1000) + 1  
+   handleSubmit = (e) => {
+      if (this.state.olderThan18) {
+         let newCar = {}
+         newCar.ownerId = this.state.chosenId
+         newCar.model = `${this.props.brand}-${this.props.model}`
+         newCar.horsepower = Math.floor(Math.random() * 1000) + 1
 
-      newCar.ownerId = ownerId
-      newCar.model = model
-      newCar.horsepower = horsepower
-      axios({
-         method: 'POST',
-         url: 'http://172.30.215.172:8081/RESTfulWebApp/car',
-         data: newCar
-      });
+         axios({
+            method: 'POST',
+            url: `${apiConfig.url}/car`,
+            data: newCar
+         })
+      } else {
+         e.preventDefault()
+         this.setState({error18: "Сказано же что 18+!"})
+      }
+
    }
 
    handleClick = (e) => {
+
+      // забираем id из класса html и записываем в state чтбы потом передать id дальше серверу
       let className = e.target.className
       let id = className.split(' ')[0];
-      this.setState({chosenId: id})
-      console.log(this.state.chosenId)
+      this.setState({ chosenId: id })
+
+      // логика работы а ля radio button у списка пользователей
+      let elems = document.querySelectorAll(".card-body");
+      [].forEach.call(elems, function (el) {
+         el.className = el.className.replace(/\bactive\b/, "");
+      });
+      e.target.classList.toggle('active')
+
+      // заибарем возраст из html и проверяем на 18+
+      let rawBirthdate = e.target.innerHTML.split(' ')[2]
+      let birthdate = moment(rawBirthdate, 'DD.MM.YYYY')
+      let now = moment()
+      let ageIndays = now.diff(birthdate, 'days');
+      if (ageIndays >= 6570) {
+         this.setState({ olderThan18: true })
+      } else {
+         this.setState({ olderThan18: false, error18: "Извините у нас строго 18+" })
+      }
    }
 
    getIdFromOwner = (id) => {
       this.setState({ chosenId: id })
-      // console.log(this.state.chosenId, "id")
    }
 
    if404 = () => {
@@ -62,7 +86,7 @@ class AddCarToOwner extends React.Component {
 
    getLast3IDs() {
       axios
-         .get('http://172.30.215.172:8081/RESTfulWebApp/getpersonlist')
+         .get(`${apiConfig.url}/getpersonlist`)
          .then(response => {
             this.setState({ ids: response.data.slice(response.data.length - 3, response.data.length) })
          })
@@ -89,22 +113,25 @@ class AddCarToOwner extends React.Component {
                      <p>Добавление пользователя</p>
                      <SearchOwner myCallback={this.getIDFromSearchBar} />
                      <p>{this.state.errorText}</p>
-                     {this.state.ids.map((id, index) =>
-                        <div key={index} onClick={this.handleClick}>
-                           <Owner
-                              shows={false}
-                              addNewCarToOwner={true}
-                              key={index}
-                              ids={id} />
-                        </div>)}
-                     <p>{this.props.brand}</p>
-                     <p>{this.props.model}</p>
-                     <Button variant="primary" type="submit" onClick={this.handleSubmit}>
-                        Ок
-                     </Button>
-                     <Button variant="primary" onClick={close}>
-                        Отмена
-                     </Button>
+                     <Form onSubmit={this.handleSubmit}>
+                        {this.state.ids.map(id =>
+                           <div key={id} onClick={this.handleClick}>
+                              <Owner
+                                 shows={false}
+                                 addNewCarToOwner={true}
+                                 ids={id} />
+                           </div>
+                        )}
+                        <p>{this.state.error18}</p>
+                        <p>{this.props.brand}</p>
+                        <p>{this.props.model}</p>
+                        <Button variant="primary" type="submit">
+                           Ок
+                        </Button>
+                        <Button variant="primary" onClick={close}>
+                           Отмена
+                        </Button>
+                     </Form>
                   </div>
                )}
             </Popup>
@@ -117,21 +144,23 @@ class AddCarToOwner extends React.Component {
                      <p>Добавление пользователя</p>
                      <SearchOwner myCallback={this.getIDFromSearchBar} />
                      <p>{this.state.errorText}</p>
-                     <div onClick={this.handleClick}>
-                        <Owner
-                           ids={this.state.id[0]}
-                           addNewCarToOwner={true}
-                           shows={false}
-                           myCallback2={this.if404} />
-                     </div>
-                     <p>{this.props.brand}</p>
-                     <p>{this.props.model}</p>
-                     <Button variant="primary" type="submit">
-                        Ок
-                     </Button>
-                     <Button variant="primary" onClick={close}>
-                        Отмена
-                     </Button>
+                     <Form onSubmit={this.handleSubmit}>
+                        <div onClick={this.handleClick}>
+                           <Owner
+                              ids={this.state.id[0]}
+                              addNewCarToOwner={true}
+                              shows={false}
+                              myCallback2={this.if404} />
+                        </div>
+                        <p>{this.props.brand}</p>
+                        <p>{this.props.model}</p>
+                        <Button variant="primary" type="submit">
+                           Ок
+                        </Button>
+                        <Button variant="primary" onClick={close}>
+                           Отмена
+                        </Button>
+                     </Form>
                   </div>
                )}
             </Popup>

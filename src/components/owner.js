@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Container, ListGroup, Card, Row, Col } from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import apiConfig from '../apiConfig'
 
 class Owner extends React.Component {
    constructor(props) {
@@ -50,7 +51,7 @@ class Owner extends React.Component {
    getOwnerInfo() {
       if (this.state.id !== "add") {
          axios
-            .get('http://172.30.215.172:8081/RESTfulWebApp/personwithcars', {
+            .get(`${apiConfig.url}/personwithcars`, {
                params: {
                   personid: this.state.id
                }
@@ -93,14 +94,16 @@ class Owner extends React.Component {
                   </Card>
                </Col>
                <Col className="carsList">
-                  {/* если есть машины и их надо показывать, то рендерится */}
-                  {(this.state.cars && this.state.cars.length && this.state.show && !this.state.addNewCarToOwner) ?
-                     this.state.cars.map((car, index) => {
-                        return (
-                           <ListGroup.Item key={index}>{car.model}</ListGroup.Item>
-                        )
-                     }) : null
-                  }
+                  <ListGroup>
+                     {/* если есть машины и их надо показывать, то рендерится */}
+                     {(this.state.cars && this.state.cars.length && this.state.show && !this.state.addNewCarToOwner) ?
+                        this.state.cars.map((car, index) => {
+                           return (
+                              <ListGroup.Item key={index}>{car.model}</ListGroup.Item>
+                           )
+                        }) : null
+                     }
+                  </ListGroup>
                </Col>
             </Row>
          </Container>

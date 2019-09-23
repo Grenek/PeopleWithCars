@@ -5,6 +5,7 @@ import { Container, Button, Form } from 'react-bootstrap'
 import Popup from 'reactjs-popup'
 import DatePicker from "react-datepicker"
 import axios from 'axios'
+import apiConfig from '../apiConfig'
 var moment = require('moment');
 
 class AddOwner extends React.Component {
@@ -74,7 +75,7 @@ class AddOwner extends React.Component {
          newOwner.birthdate = birthdate
          axios({
             method: 'POST',
-            url: 'http://172.30.215.172:8081/RESTfulWebApp/person',
+            url: `${apiConfig.url}/person`,
             data: newOwner
          });
       }
@@ -101,6 +102,7 @@ class AddOwner extends React.Component {
                            <Form.Label>День рождения</Form.Label>
                            <br></br>
                            <DatePicker
+                              showYearDropdown
                               className="date-input"
                               placeholderText="День рождения"
                               dateFormat="dd.MM.yyyy"
