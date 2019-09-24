@@ -21,10 +21,6 @@ class ModelsList extends React.Component {
       }
    }
 
-   handleClick = () => {
-      // console.log(this.state.displayedModels)
-   }
-
    searchHandler = (e) => {
       let searchQuery = e.target.value.toLowerCase(),
          displayedModels = this.state.models.filter((el) => {
@@ -37,16 +33,6 @@ class ModelsList extends React.Component {
    }
 
    render() {
-      // if (this.state.displayedModels && this.state.displayedModels.length > 0 && typeof this.state.displayedModels !== "undefined") {
-      //    return (
-      //       <div>
-      //          <input type="text" className="search" onChange={this.searchHandler} onClick={this.handleClick} />
-      //          {this.state.displayedModels.map((model, index) => {
-      //                <ListGroup.Item className="model" key={index} onClick={this.handleClick}>{model}<AddCarToOwner model={model} brand={this.props.brand} /></ListGroup.Item>
-      //          })}
-      //       </div>
-      //    )
-      // }
       return (
          <Col>
             <input type="text" className="search" onChange={this.searchHandler} onClick={this.handleClick} />

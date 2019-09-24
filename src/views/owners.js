@@ -29,20 +29,6 @@ class Owners extends React.Component {
       }
    }
 
-   // короче походу без этого работает
-
-   // render3LastOwners() {
-   //    if ((typeof this.props.match.params.id === "undefined" || // срабатывает на enter по пустой строке
-   //       this.state.ids.length === 0 || // условие срабатывает когда приложение только загрузилось
-   //       this.state.triggered404 || // срабатывает если юзера не нашли
-   //       // this.state.id.includes("") ||
-   //       // this.state.id === "" ||
-   //       typeof this.state.id[0] === "undefined" // если в url после owners не число
-   //    ) && isNaN(this.props.match.params.id)) { // условие нужно чтобы при наличии в url id которое является числом рендер последних трех не срабатывал
-   //       return true
-   //    }
-   // }
-
    // берем ID который нам передал searchOwner и пушим его в url и state
    getIDFromSearchBar = (idFromSearchBar) => {
       if (typeof idFromSearchBar !== "undefined") {
@@ -79,15 +65,6 @@ class Owners extends React.Component {
    }
 
    render() {
-      // if (this.render3LastOwners()) {
-      //    return (
-      //       <div className="owners">
-      //          <AddOwner myCallback3={this.pushAddToUrl} myCallback4={this.removeAddFromUrl} />
-      //          <SearchOwner myCallback={this.getIDFromSearchBar} /> {/* вызываем searchbar и коллбэк чтобы добраться до того что вбили в поле */}
-      //          {this.state.ids.map((id, index) => <Owner key={index} ids={id} />)}
-      //       </div>
-      //    )
-      // } else 
       if (!isNaN(this.props.match.params.id)) {
          return (
             <div className="owners">
