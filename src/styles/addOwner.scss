@@ -1,7 +1,37 @@
 .addOwnerButton {
   position: absolute;
-  right: 32px;
-  width: 31px;
+  right: 22px;
+  top: 130px;
+  margin: 0px;
+  background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+  box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+  width: 40px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  margin: 10px;
+  height: 38px;
+  width: 38px;
+  text-align:center;
+  border: none !important;
+  background-size: 300% 100%;
+  border-radius: 50px;
+  moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.addOwnerButton:hover {
+  background-position: 100% 0;
+  moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.addOwnerButton:focus {
+  outline: none;
 }
 
 .owners button {

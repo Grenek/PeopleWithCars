@@ -2,3 +2,8 @@
    margin-right: 32px;
    margin-left: 32px;
 }
+
+.form-control:focus {
+   box-shadow: 0 0 0 0.2rem rgba(43, 182, 115, .25) !important;
+   border-color: #2bb673 !important
+}
